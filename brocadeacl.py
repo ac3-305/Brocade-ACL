@@ -12,7 +12,7 @@ username = raw_input("Enter username:\n")
 password = getpass.getpass("Enter Password:\n")
 
 
-ACL = raw_input("Enter the ACL you want configured:\n")     #Access list
+ACL = raw_input("Enter the ACL you want configured:\n")     #User inputs
 protocol = raw_input("Enter the protocol to be configured to:\n")
 port = raw_input("Enter the port to be configured:\n")
 permitdeny = raw_input("Permit or Deny?:\n")
@@ -20,29 +20,14 @@ sourcehost = raw_input("Source IP or any?:\n")
 destination= raw_input("Destination IP or any?:\n")
 
 
-
-
-
-#def newinput()
-#    protocol = raw_input("Enter the protocol to be configured to:\n")
-#    port = raw_input("Enter the port to be configured:\n")
-#    permitdeny = raw_input("Permit or Deny?:\n")
-#    sourcehost = raw_input("Source IP or any?:\n")
-#    destination= raw_input("Destination IP or any?:\n")
-#    newinput = raw_input("Would you like to enter another line?(Y/N): \n")
-
-#    if newinput == 'y'
-#       newinput()
-#    elif newinput == 'n'
-
-accesslist = [permitdeny,protocol,sourcehost,destination,'eq',port]
+accesslist = [permitdeny,protocol,sourcehost,destination,'eq',port] # list of user inputs
 
 #y = accesslist.split(',')
 
-def endsession():
+def endsession():    # end ssh session
      time.sleep(1)
      output = remote_connection.recv(65535)
-     print output                                                                         # output confirmation
+     print output    # output confirmation
      ssh_client.close
 
 
@@ -52,7 +37,7 @@ z= " "
 
 a = ip_address.split('.')
 
-def nextacl():
+def nextacl():  # function for recursive inputs as indicated by user
     next_protocol = raw_input("Enter the protocol to be configured to:\n")
     next_port = raw_input("Enter the port to be configured:\n")
     next_permitdeny = raw_input("Permit or Deny?:\n")
