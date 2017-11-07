@@ -1,18 +1,23 @@
-
 #Brocade Access list script man
 
 
-import paramiko    #import modules
+#import modules
+
+import paramiko    
 import time
 import random
 import sys
 import getpass
 
-ip_address = raw_input("Enter Brocade IP Address:\n")     #username input
+
+#username input
+ip_address = raw_input("Enter Brocade IP Address:\n")     
 username = raw_input("Enter username:\n")
 password = getpass.getpass("Enter Password:\n")
 
 
+
+#user input variables
 ACL = raw_input("Enter the ACL you want configured:\n")     #Access list
 protocol = raw_input("Enter the protocol to be configured to:\n")
 port = raw_input("Enter the port to be configured:\n")
@@ -23,7 +28,7 @@ destination= raw_input("Destination IP or any?:\n")
 
 
 
-
+#original input function. Saving for possible use later
 #def newinput()
 #    protocol = raw_input("Enter the protocol to be configured to:\n")
 #    port = raw_input("Enter the port to be configured:\n")
@@ -36,10 +41,12 @@ destination= raw_input("Destination IP or any?:\n")
 #       newinput()
 #    elif newinput == 'n'
 
+#list containing user input variables 
 accesslist = [permitdeny,protocol,sourcehost,destination,'eq',port]
 
 #y = accesslist.split(',')
 
+# function to end ssh session
 def endsession():
      time.sleep(1)
      output = remote_connection.recv(65535)
@@ -47,12 +54,13 @@ def endsession():
      ssh_client.close
 
 
-
+#space to split the list
 z= " "
 
-
+#split list for ip address list slicing
 a = ip_address.split('.')
 
+#function to input next lines for acl 
 def nextacl():
     next_protocol = raw_input("Enter the protocol to be configured to:\n")
     next_port = raw_input("Enter the port to be configured:\n")
@@ -77,7 +85,9 @@ def nextacl():
 
 #newinput()
 
-if len(a) == 4 and int(a[0]) == 144 and int(a[1]) == 174 and int(a[2]) <= 27 and int(a[3]) <= 212:    # valid ssh host verification
+#ssh host verification. This can be set to any ip range
+
+if len(a) == 4 and int(a[0]) == 192 and int(a[1]) == 168 and int(a[2]) <= 27 and int(a[3]) <= 212:    # valid ssh host verification
         ssh_client = paramiko.SSHClient()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh_client.connect(hostname=ip_address,username=username,password=password)
@@ -106,4 +116,4 @@ if len(a) == 4 and int(a[0]) == 144 and int(a[1]) == 174 and int(a[2]) <= 27 and
         
         
         
-      
+
