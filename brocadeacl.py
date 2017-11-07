@@ -1,4 +1,5 @@
-#Brocade Access list script 
+
+#Brocade Access list script man
 
 
 import paramiko    #import modules
@@ -12,7 +13,7 @@ username = raw_input("Enter username:\n")
 password = getpass.getpass("Enter Password:\n")
 
 
-ACL = raw_input("Enter the ACL you want configured:\n")     #User inputs
+ACL = raw_input("Enter the ACL you want configured:\n")     #Access list
 protocol = raw_input("Enter the protocol to be configured to:\n")
 port = raw_input("Enter the port to be configured:\n")
 permitdeny = raw_input("Permit or Deny?:\n")
@@ -20,14 +21,29 @@ sourcehost = raw_input("Source IP or any?:\n")
 destination= raw_input("Destination IP or any?:\n")
 
 
-accesslist = [permitdeny,protocol,sourcehost,destination,'eq',port] # list of user inputs
+
+
+
+#def newinput()
+#    protocol = raw_input("Enter the protocol to be configured to:\n")
+#    port = raw_input("Enter the port to be configured:\n")
+#    permitdeny = raw_input("Permit or Deny?:\n")
+#    sourcehost = raw_input("Source IP or any?:\n")
+#    destination= raw_input("Destination IP or any?:\n")
+#    newinput = raw_input("Would you like to enter another line?(Y/N): \n")
+
+#    if newinput == 'y'
+#       newinput()
+#    elif newinput == 'n'
+
+accesslist = [permitdeny,protocol,sourcehost,destination,'eq',port]
 
 #y = accesslist.split(',')
 
-def endsession():    # end ssh session
+def endsession():
      time.sleep(1)
      output = remote_connection.recv(65535)
-     print output    # output confirmation
+     print output                                                                         # output confirmation
      ssh_client.close
 
 
@@ -37,14 +53,14 @@ z= " "
 
 a = ip_address.split('.')
 
-def nextacl():  # function for recursive inputs as indicated by user
+def nextacl():
     next_protocol = raw_input("Enter the protocol to be configured to:\n")
     next_port = raw_input("Enter the port to be configured:\n")
     next_permitdeny = raw_input("Permit or Deny?:\n")
     next_sourcehost = raw_input("Source IP or any?:\n")
     next_destination= raw_input("Destination IP or any?:\n")
     next_accesslist = [next_permitdeny,next_protocol,next_sourcehost,next_destination,'eq',next_port]
-    
+    end_acl = ['permit','ip','any','any']
     q = z.join(next_accesslist)
     remote_connection.send(q)
     remote_connection.send("\n")
@@ -54,10 +70,14 @@ def nextacl():  # function for recursive inputs as indicated by user
     if newinput == 'y':
        nextacl()
     elif newinput == 'n':
-       endsession()
+         #if next_accesslist[1] == 'ip' and next_accesslist[2] == 'any' and next_accesslist[3] == 'any'
+         q = z.join(end_acl)
+         remote_connection.send(q)
+         endsession()
+
 #newinput()
 
-if len(a) == 4 and int(a[0]) == 192 and int(a[1]) == 168 and int(a[2]) <= 27 and int(a[3]) <= 100:    # valid ssh host verification
+if len(a) == 4 and int(a[0]) == 144 and int(a[1]) == 174 and int(a[2]) <= 27 and int(a[3]) <= 212:    # valid ssh host verification
         ssh_client = paramiko.SSHClient()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh_client.connect(hostname=ip_address,username=username,password=password)
@@ -84,5 +104,6 @@ if len(a) == 4 and int(a[0]) == 192 and int(a[1]) == 168 and int(a[2]) <= 27 and
         elif newinput == 'n':
              endsession()
         
-       
         
+        
+      
